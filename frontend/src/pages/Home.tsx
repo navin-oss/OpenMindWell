@@ -34,7 +34,7 @@ export default function Home() {
     <main className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
       {/* Crisis Banner */}
       <div className="bg-red-600 text-white py-3 px-4 text-center text-sm">
-        <strong>⚠️ IN CRISIS?</strong> Call 988 (US) | Text HOME to 741741 | Visit findahelpline.com
+        <strong>⚠️ IN CRISIS?</strong> 🇺🇸 Call 988 | Text HOME to 741741 | 🇮🇳 Call 9152987821 (iCall) | KIRAN 1800-599-0019 | Visit findahelpline.com
       </div>
 
       {/* Hero Section */}

@@ -51,7 +51,7 @@ export default function Dashboard() {
     <div className="min-h-screen bg-gray-50">
       {/* Crisis Banner */}
       <div className="bg-red-600 text-white py-2 px-4 text-center text-xs">
-        ⚠️ IN CRISIS? Call 988 or Text HOME to 741741
+        ⚠️ IN CRISIS? 🇺🇸 988 | 🇮🇳 9152987821 (iCall) | KIRAN 1800-599-0019
       </div>
 
       {/* Header */}
