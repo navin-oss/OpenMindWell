@@ -194,9 +194,16 @@ Perfect for:
 ## 📞 Crisis Resources
 
 **If you're in crisis:**
-- 🇺🇸 **988 Suicide & Crisis Lifeline**: Call/Text 988
-- 🇺🇸 **Crisis Text Line**: Text HOME to 741741
-- 🌍 **International**: findahelpline.com
+
+**🇺🇸 United States:**
+- **988 Suicide & Crisis Lifeline**: Call/Text 988
+- **Crisis Text Line**: Text HOME to 741741
+
+**🇮🇳 India:**
+- **iCall Psychosocial Helpline**: 9152987821 (Mon-Sat, 8 AM - 10 PM IST)
+- **KIRAN Mental Health Helpline**: 1800-599-0019 (24/7, Toll-free)
+
+**🌍 International**: [findahelpline.com](https://findahelpline.com)
 
 ## 📄 License
 
