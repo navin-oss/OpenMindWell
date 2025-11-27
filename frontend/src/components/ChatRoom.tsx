@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { useWebSocket } from '../hooks/useWebSocket';
 
 interface Message {
@@ -30,61 +30,63 @@ export default function ChatRoom({ room, currentUser, onClose }: ChatRoomProps) 
   const [showCrisisAlert, setShowCrisisAlert] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
+  const handleMessage = useCallback((message: any) => {
+    if (message.type === 'history') {
+      // Load message history
+      setMessages(message.messages || []);
+    } else if (message.type === 'chat') {
+      // Add new chat message
+      setMessages((prev) => [
+        ...prev,
+        {
+          userId: message.userId!,
+          nickname: message.nickname!,
+          content: message.content!,
+          timestamp: message.timestamp!,
+          riskLevel: message.riskLevel,
+        },
+      ]);
+
+      // Show crisis alert if detected
+      if (message.riskLevel === 'high' || message.riskLevel === 'critical') {
+        setShowCrisisAlert(true);
+        setTimeout(() => setShowCrisisAlert(false), 10000);
+      }
+    } else if (message.type === 'join') {
+      // User joined notification
+      setMessages((prev) => [
+        ...prev,
+        {
+          userId: 'system',
+          nickname: 'System',
+          content: `${message.nickname} joined the room`,
+          timestamp: message.timestamp!,
+          type: 'system',
+        },
+      ]);
+    } else if (message.type === 'leave') {
+      // User left notification
+      setMessages((prev) => [
+        ...prev,
+        {
+          userId: 'system',
+          nickname: 'System',
+          content: `${message.nickname} left the room`,
+          timestamp: message.timestamp!,
+          type: 'system',
+        },
+      ]);
+    } else if (message.type === 'crisis_alert') {
+      setShowCrisisAlert(true);
+      setTimeout(() => setShowCrisisAlert(false), 10000);
+    }
+  }, []);
+
   const { isConnected, connectionError, sendMessage } = useWebSocket({
     roomId: room.id,
     userId: currentUser.id,
     nickname: currentUser.nickname,
-    onMessage: (message) => {
-      if (message.type === 'history') {
-        // Load message history
-        setMessages(message.messages || []);
-      } else if (message.type === 'chat') {
-        // Add new chat message
-        setMessages((prev) => [
-          ...prev,
-          {
-            userId: message.userId!,
-            nickname: message.nickname!,
-            content: message.content!,
-            timestamp: message.timestamp!,
-            riskLevel: message.riskLevel,
-          },
-        ]);
-
-        // Show crisis alert if detected
-        if (message.riskLevel === 'high' || message.riskLevel === 'critical') {
-          setShowCrisisAlert(true);
-          setTimeout(() => setShowCrisisAlert(false), 10000);
-        }
-      } else if (message.type === 'join') {
-        // User joined notification
-        setMessages((prev) => [
-          ...prev,
-          {
-            userId: 'system',
-            nickname: 'System',
-            content: `${message.nickname} joined the room`,
-            timestamp: message.timestamp!,
-            type: 'system',
-          },
-        ]);
-      } else if (message.type === 'leave') {
-        // User left notification
-        setMessages((prev) => [
-          ...prev,
-          {
-            userId: 'system',
-            nickname: 'System',
-            content: `${message.nickname} left the room`,
-            timestamp: message.timestamp!,
-            type: 'system',
-          },
-        ]);
-      } else if (message.type === 'crisis_alert') {
-        setShowCrisisAlert(true);
-        setTimeout(() => setShowCrisisAlert(false), 10000);
-      }
-    },
+    onMessage: handleMessage,
     onConnect: () => {
       console.log('Connected to chat room:', room.name);
     },

@@ -36,7 +36,7 @@ export function useWebSocket({
   const [connectionError, setConnectionError] = useState<string | null>(null);
   const reconnectTimeoutRef = useRef<NodeJS.Timeout>();
   const reconnectAttemptsRef = useRef(0);
-  const maxReconnectAttempts = 5;
+  const maxReconnectAttempts = 2;
 
   const connect = useCallback(() => {
     if (wsRef.current?.readyState === WebSocket.OPEN) {
@@ -86,17 +86,17 @@ export function useWebSocket({
         setIsConnected(false);
         onDisconnect?.();
 
-        // Attempt to reconnect
+        // Attempt to reconnect with longer delays
         if (reconnectAttemptsRef.current < maxReconnectAttempts) {
           reconnectAttemptsRef.current += 1;
-          const delay = Math.min(1000 * Math.pow(2, reconnectAttemptsRef.current), 30000);
+          const delay = Math.min(3000 * Math.pow(2, reconnectAttemptsRef.current), 10000);
           console.log(`Reconnecting in ${delay}ms (attempt ${reconnectAttemptsRef.current})`);
 
           reconnectTimeoutRef.current = setTimeout(() => {
             connect();
           }, delay);
         } else {
-          setConnectionError('Failed to connect after multiple attempts');
+          setConnectionError('Connection lost. Please refresh to reconnect.');
         }
       };
 
@@ -157,7 +157,8 @@ export function useWebSocket({
     return () => {
       disconnect();
     };
-  }, [connect, disconnect]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [roomId, userId, nickname]);
 
   return {
     isConnected,

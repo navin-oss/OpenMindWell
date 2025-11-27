@@ -30,9 +30,10 @@ router.get('/:roomId/messages', authenticate, async (req: AuthRequest, res) => {
     const { roomId } = req.params;
     const limit = parseInt(req.query.limit as string) || 50;
 
+    // Fetch messages without joining profiles (will get user data from WebSocket)
     const { data, error } = await supabase
       .from('messages')
-      .select('*, profile:profiles(nickname, avatar)')
+      .select('*')
       .eq('room_id', roomId)
       .order('created_at', { ascending: false })
       .limit(limit);

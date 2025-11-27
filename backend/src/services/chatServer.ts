@@ -54,7 +54,12 @@ export class ChatServer {
         await this.handleMessage(ws, message);
       } catch (error) {
         console.error('Error handling message:', error);
-        ws.send(JSON.stringify({ type: 'error', message: 'Invalid message format' }));
+        // Send error but don't close connection
+        try {
+          ws.send(JSON.stringify({ type: 'error', message: 'Invalid message format' }));
+        } catch (sendError) {
+          console.error('Error sending error message:', sendError);
+        }
       }
     });
 
@@ -87,47 +92,60 @@ export class ChatServer {
       return;
     }
 
-    // Add user to room
-    if (!this.rooms.has(roomId)) {
-      this.rooms.set(roomId, new Set());
+    try {
+      // Add user to room
+      if (!this.rooms.has(roomId)) {
+        this.rooms.set(roomId, new Set());
+      }
+
+      const room = this.rooms.get(roomId)!;
+      room.add({ ws, userId, nickname });
+
+      // Store connection metadata
+      (ws as any).roomId = roomId;
+      (ws as any).userId = userId;
+      (ws as any).nickname = nickname;
+
+      // Fetch recent messages from database (without profile join - nicknames come from messages)
+      const { data: messages, error } = await supabase
+        .from('messages')
+        .select('*')
+        .eq('room_id', roomId)
+        .order('created_at', { ascending: false })
+        .limit(50);
+
+      if (error) {
+        console.error('Error fetching messages:', error);
+        // Send error but continue - don't crash the connection
+        ws.send(JSON.stringify({ 
+          type: 'error', 
+          message: 'Could not load message history' 
+        }));
+      } else {
+        ws.send(
+          JSON.stringify({
+            type: 'history',
+            messages: messages?.reverse() || [],
+          })
+        );
+      }
+
+      // Broadcast join event
+      this.broadcastToRoom(roomId, {
+        type: 'join',
+        userId,
+        nickname,
+        timestamp: new Date().toISOString(),
+      });
+
+      console.log(`${nickname} joined room ${roomId}`);
+    } catch (error) {
+      console.error('Error in handleJoin:', error);
+      ws.send(JSON.stringify({ 
+        type: 'error', 
+        message: 'Failed to join room' 
+      }));
     }
-
-    const room = this.rooms.get(roomId)!;
-    room.add({ ws, userId, nickname });
-
-    // Store connection metadata
-    (ws as any).roomId = roomId;
-    (ws as any).userId = userId;
-    (ws as any).nickname = nickname;
-
-    // Fetch recent messages from database
-    const { data: messages, error } = await supabase
-      .from('messages')
-      .select('*, profile:profiles(nickname, avatar)')
-      .eq('room_id', roomId)
-      .order('created_at', { ascending: false })
-      .limit(50);
-
-    if (error) {
-      console.error('Error fetching messages:', error);
-    } else {
-      ws.send(
-        JSON.stringify({
-          type: 'history',
-          messages: messages?.reverse() || [],
-        })
-      );
-    }
-
-    // Broadcast join event
-    this.broadcastToRoom(roomId, {
-      type: 'join',
-      userId,
-      nickname,
-      timestamp: new Date().toISOString(),
-    });
-
-    console.log(`${nickname} joined room ${roomId}`);
   }
 
   private handleLeave(ws: WebSocket, message: ChatMessage) {
@@ -181,7 +199,7 @@ export class ChatServer {
         content,
         risk_level: crisisResult.riskLevel,
       })
-      .select('*, profile:profiles(nickname, avatar)')
+      .select('*')
       .single();
 
     if (error) {
@@ -190,10 +208,14 @@ export class ChatServer {
       return;
     }
 
-    // Broadcast message to room
+    // Broadcast message to room with nickname from WebSocket metadata
     this.broadcastToRoom(roomId, {
       type: 'chat',
-      ...savedMessage,
+      userId: savedMessage.user_id,
+      nickname: nickname, // Use nickname from WebSocket connection
+      content: savedMessage.content,
+      timestamp: savedMessage.created_at,
+      riskLevel: savedMessage.risk_level,
     });
 
     // Send crisis alert if detected
