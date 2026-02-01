@@ -9,11 +9,14 @@
 
 **A compassionate, AI-powered mental health support platform**
 
-> 🏠 **Self-Hosted Project**: OpenMindWell is designed to be deployed by each user with their own infrastructure. There is no central hosted instance - users maintain full control of their data and deployment.
+> **Self-Hosted Project**: OpenMindWell is designed to be deployed by each user with their own infrastructure. There is no central hosted instance - users maintain full control of their data and deployment.
 
-> ⚠️ **IMPORTANT DISCLAIMER**: OpenMindWell is NOT a substitute for professional mental health care. If you are in crisis, please contact emergency services or a crisis hotline immediately.
+> **IMPORTANT DISCLAIMER**: OpenMindWell is NOT a substitute for professional mental health care. If you are in crisis, please contact emergency services or a crisis hotline immediately.
 
-## 🌟 Features
+> Communication Channel: All project-related communications are directed through the [ZenYukti Server](https://go.zenyukti.in/discord)
+For bug reports, feature requests, development discussions, deployment assistance, and community support, please join our Discord Server.
+
+## Features
 
 - **Anonymous Chat Rooms** - Join peer support groups without revealing identity
 - **AI Crisis Detection** - Automatic detection of concerning messages with resource suggestions
@@ -22,7 +25,7 @@
 - **Resource Library** - Curated mental health resources, hotlines, and exercises
 - **Volunteer Moderation** - Community-driven safety and support
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 - Node.js 18+
@@ -84,7 +87,7 @@ npm run dev
 - Frontend: http://localhost:3000
 - Backend: http://localhost:3001
 
-## 🌐 Deployment
+## Deployment
 
 OpenMindWell is a **self-hosted application**. Each deployment requires:
 - Your own Supabase account (free tier available)
@@ -115,14 +118,14 @@ OpenMindWell is a **self-hosted application**. Each deployment requires:
 - Great for testing and development
 
 **Important Notes:**
-- 🔒 Each user maintains their own database and API keys
-- 🌍 No central hosted instance exists
-- 💰 All infrastructure costs are borne by the deployer
-- 🛡️ You control data privacy and security
+- Each user maintains their own database and API keys
+- No central hosted instance exists
+- All infrastructure costs are borne by the deployer
+- You control data privacy and security
 
 See [OPENMINDWELL_PROJECT_GUIDE.md](OPENMINDWELL_PROJECT_GUIDE.md) for detailed deployment instructions.
 
-## 🚀 Quick Start
+## Quick Start
 
 ```bash
 # Clone the repository
@@ -143,7 +146,7 @@ npm run dev
 
 Visit http://localhost:3000
 
-## 📚 Documentation
+## Documentation
 
 **READ THIS FIRST:** [OPENMINDWELL_PROJECT_GUIDE.md](./OPENMINDWELL_PROJECT_GUIDE.md)
 
@@ -162,7 +165,7 @@ This comprehensive guide contains:
 - **Database**: Supabase (PostgreSQL + Auth)
 - **AI**: HuggingFace Inference API (emotion detection)
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 openmindwell/
@@ -173,7 +176,7 @@ openmindwell/
 └── package.json       # Monorepo scripts
 ```
 
-## 🔒 Safety Features
+## Safety Features
 
 - Prominent crisis disclaimers throughout the app
 - AI-powered crisis detection on all messages
@@ -182,16 +185,17 @@ openmindwell/
 - Anonymous/pseudonymous accounts only
 - Row-level security on all data
 
-## 🤝 Contributing
+## Contributing
 
 We welcome contributions! See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
 
 Perfect for:
-- 🎓 GSoC, Hacktoberfest, WoC programs
-- 💼 Portfolio projects
-- 🌍 Making a social impact
+- Making a social impact
+- Beginners
+- GSoC, Hacktoberfest, WoC programs
+- Portfolio projects
 
-## 📞 Crisis Resources
+## Crisis Resources
 
 **If you're in crisis:**
 
@@ -203,13 +207,13 @@ Perfect for:
 - **iCall Psychosocial Helpline**: 9152987821 (Mon-Sat, 8 AM - 10 PM IST)
 - **KIRAN Mental Health Helpline**: 1800-599-0019 (24/7, Toll-free)
 
-**🌍 International**: [findahelpline.com](https://findahelpline.com)
+**International**: [findahelpline.com](https://findahelpline.com)
 
-## 📄 License
+## License
 
 MIT License - See [LICENSE](./LICENSE) for details
 
-## ⚠️ Ethical Use
+## Ethical Use
 
 This platform is designed to:
 - ✅ Provide peer support and community
@@ -223,30 +227,30 @@ This platform is NOT:
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
 We welcome contributions from the community! OpenMindWell is built with the mission to make mental health support accessible to everyone.
 
 **Ways to Contribute:**
-- 🐛 Report bugs and issues
-- 💡 Suggest new features
-- 🔧 Submit pull requests
-- 📖 Improve documentation
-- 🌍 Translate to other languages
+- Report bugs and issues
+- Suggest new features
+- Submit pull requests
+- Improve documentation
+- Translate to other languages
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
 ---
 
-## 💜 Built by Team ZenYukti
+## Built by Team ZenYukti
 
 **[ZenYukti](https://zenyukti.in)** - Building innovative solutions for mental wellness and personal growth.
 
 **Connect with us:**
-- 🌐 Website: [zenyukti.in](https://zenyukti.in)
-- 💼 LinkedIn: [linkedin.com/company/zenyukti](https://linkedin.com/company/zenyukti)
-- 🐦 Twitter/X: [@zenyukti](https://x.com/zenyukti)
-- 💬 Discord: [Join our community](https://go.zenyukti.in/discord)
+- Website: [zenyukti.in](https://zenyukti.in)
+- LinkedIn: [linkedin.com/company/zenyukti](https://linkedin.com/company/zenyukti)
+- Twitter/X: [@zenyukti](https://x.com/zenyukti)
+- Discord: [Join our community](https://go.zenyukti.in/discord)
 - 📸 Instagram: [@zenyukti](https://instagram.com/zenyukti)
 
 ---
